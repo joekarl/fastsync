@@ -20,14 +20,14 @@
     };
 
     /**
-     * Simple serialize function
+     * Simple series function
      * Assumes fns array has function(err, callback) items and no nulls
      * This is naive, but no error checking == fast
      *
      * cb should be a function(err, results[])
      * where results will be an array containing the results of the fn call
      */
-    exports.serial = function(fns, cb) {
+    exports.series = function(fns, cb) {
         var fnsLength = fns.length,
             i = 0,
             results = [];

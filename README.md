@@ -12,7 +12,7 @@ Works in the browser or in node.js. Minified it is 830 bytes.
 Covers 4 basic use cases:
 
 * parallel - Run functions in parallel and callback when finished
-* serial - Run functions in series and callback when finished
+* series - Run functions in series and callback when finished
 * waterfall - Run functions in series while passing results of one function to the next
 * asyncMap - Convenience method for mapping an array using asynchronous functions, analogous to an async version of Array.forEach
 
@@ -45,9 +45,9 @@ Covers 4 basic use cases:
         console.log(results); //[1, 2, 3, 4]
     });
 
-####serial
+####series
 
-    fastsync.serial([
+    fastsync.series([
         function one(cb) {
             setTimeout(function(){
                 cb(null, 1);

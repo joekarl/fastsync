@@ -71,7 +71,7 @@ function testSuite(testName){
             });
         });
 
-        describe("#serial", function(){
+        describe("#series", function(){
             it('should do functions in series and return values in order', function(done){
                 var current = 1;
                 var wait100 = function(i, cb) {
@@ -84,7 +84,7 @@ function testSuite(testName){
                     }, 10);
                 };
                 var startTime = new Date().getTime();
-                fastsync.serial([
+                fastsync.series([
                     wait100.bind(null, 1),
                     wait100.bind(null, 2),
                     wait100.bind(null, 3),
