@@ -1,7 +1,11 @@
 fastsync
 ========
 
-Simplified version of Async but streamlined to be small and fast.
+Simple flow control library with no dependencies and streamlined to be small and fast.
+Designed in the same lineage as caolan's async/nimble libraries (ie this is NOT
+a promise library).
+
+Works in the browser or in node.js. Minified it is 814 bytes.
 
 Covers 4 basic use cases:
 
@@ -11,12 +15,17 @@ Covers 4 basic use cases:
 * asyncMap - Convenience method for mapping an array using asynchronous functions, analogous to an async version of Array.forEach
 
 ##Tests
-Browser tests can be run by opening test/test.html.
+Browser tests can be run by opening test/test.html in your browser.
 
 Node tests can be run with `npm test`.
 
+Both the full size and minified version are tested.
 
 ##Benchmarks
+Fastsync performs much better than the caolan's original async library and
+outperforms every promise lib except for bluebird when using node 0.11.13 (though
+in all fairness fastsync it doesn't try to do as much.)
+
 Copy of the https://github.com/petkaantonov/bluebird benchmarks.
 
 To run a benchmark, run the given command for a benchmark while on the project root.
@@ -147,3 +156,8 @@ Command: `benchmark/bench parallel`
     Node.JS 0.11.13
     V8 3.25.30
     Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz × 8
+
+##Gulp tasks
+
+* lint - run jshint on fastsync.js
+* build - build minified version of fastsync

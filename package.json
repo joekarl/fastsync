@@ -24,6 +24,8 @@
     "mocha": "^1.20.0",
     "gulp-jshint": "^1.5.3",
     "jshint-stylish": "^0.1.5",
-    "gulp": "^3.6.0"
+    "gulp": "^3.6.0",
+    "gulp-uglify": "0.3.0",
+    "gulp-rename": "1.2.0"
   }
 }

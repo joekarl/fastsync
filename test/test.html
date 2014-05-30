@@ -13,8 +13,18 @@
     <script type="text/javascript" src="jasmine-2.0.0/boot.js"></script>
 
     <!-- include source files here... -->
-    <script type="text/javascript" src="../fastsync.js"></script>
+    <script>
+        TEST_FASTSYNC_MIN = false;
+    </script>
 
+    <script type="text/javascript" src="../fastsync.js"></script>
+    <script type="text/javascript" src="fastsync_test_browser.js"></script>
+
+    <script>
+        TEST_FASTSYNC_MIN = true;
+    </script>
+
+    <script type="text/javascript" src="../fastsync_min.js"></script>
     <script type="text/javascript" src="fastsync_test_browser.js"></script>
 </head>
 <body>

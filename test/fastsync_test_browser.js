@@ -1,5 +1,7 @@
 
-describe("fastsync", function(){
+var testName = TEST_FASTSYNC_MIN ? "fastsync.min" : "fastsync";
+
+describe(testName, function(){
     describe("#parallel", function(){
         it('should do functions in parallel', function(done){
             var inflightCount = 0;
