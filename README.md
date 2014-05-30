@@ -14,6 +14,95 @@ Covers 4 basic use cases:
 * waterfall - Run functions in series while passing results of one function to the next
 * asyncMap - Convenience method for mapping an array using asynchronous functions, analogous to an async version of Array.forEach
 
+##Examples
+####parallel
+
+    fastsync.parallel([
+        function one(cb) {
+            setTimeout(function(){
+                cb(null, 1);
+            }, 100);
+        },
+        function two(cb) {
+            setTimeout(function(){
+                cb(null, 2);
+            }, 100);
+        },
+        function three(cb) {
+            setTimeout(function(){
+                cb(null, 3);
+            }, 100);
+        },
+        function four(cb) {
+            setTimeout(function(){
+                cb(null, 4);
+            }, 100);
+        }
+    ], function(err, results){
+        //100ms later
+        console.log(results); //[1, 2, 3, 4]
+    });
+
+####serial
+
+    fastsync.serial([
+        function one(cb) {
+            setTimeout(function(){
+                cb(null, 1);
+            }, 100);
+        },
+        function two(cb) {
+            setTimeout(function(){
+                cb(null, 2);
+            }, 100);
+        },
+        function three(cb) {
+            setTimeout(function(){
+                cb(null, 3);
+            }, 100);
+        },
+        function four(cb) {
+            setTimeout(function(){
+                cb(null, 4);
+            }, 100);
+        }
+    ], function(err, results){
+        //400ms later
+        console.log(results); //[1, 2, 3, 4]
+    });
+
+####waterfall
+
+    fastsync.waterfall([
+        function(cb) {
+            cb(null, 8);
+        },
+        function split(v, cb) {
+            //v = 8
+            cb(null, v / 2, v / 2);
+        },
+        function square(v1, v2, cb) {
+            //v1 = 4, v2 = 4
+            cb(null, v1 * v2);
+        },
+        function minus1(v, cb) {
+            //v = 16
+            cb(null, v - 1);
+        }
+    ], function(err, result){
+        console.log(result); //15
+    });
+
+####asyncMap
+
+    fastsync.asyncMap([1,2,3], function mult5(v, cb){
+        setTimeout(function(){
+            cb(null, v * 5);
+        }, 100);
+    }, function(err, mappedArray){
+        console.log(mappedArray); //[5,10,15]
+    });
+
 ##Tests
 Browser tests can be run by opening test/test.html in your browser.
 
