@@ -5,7 +5,9 @@ Simple flow control library with no dependencies and streamlined to be small and
 Designed in the same lineage as caolan's async/nimble libraries (ie this is NOT
 a promise library).
 
-Works in the browser or in node.js. Minified it is 814 bytes.
+Works in the browser or in node.js. Minified it is 830 bytes.
+
+`npm install fastsync`
 
 Covers 4 basic use cases:
 

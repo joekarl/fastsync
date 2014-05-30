@@ -141,9 +141,9 @@
             error;
         return function(index, err, result) {
             results[index] = result;
-            if (err) {
+            if (!error && err) {
                 error = err;
-                cb(err);
+                return cb(err);
             }
             if (!error && ++count == n) {
                 cb(null, results);
