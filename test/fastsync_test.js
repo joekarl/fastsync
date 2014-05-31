@@ -95,6 +95,29 @@ function testSuite(testName){
                     done();
                 });
             });
+            it('should do functions in series and return error and values in order', function(done){
+                var anError = "An Error";
+                var wait100AndReturnErrOn3 = function(i, cb) {
+                    setTimeout(function(){
+                        if (i == 3) {
+                            cb(anError);
+                        } else {
+                            cb(null, i);
+                        }
+                    }, 100);
+                };
+                var startTime = new Date().getTime();
+                fastsync.series([
+                    wait100AndReturnErrOn3.bind(null, 0),
+                    wait100AndReturnErrOn3.bind(null, 1),
+                    wait100AndReturnErrOn3.bind(null, 2),
+                    wait100AndReturnErrOn3.bind(null, 3),
+                    wait100AndReturnErrOn3.bind(null, 4)
+                ], function(error, results){
+                    assert.equal(error, anError);
+                    done();
+                });
+            });
         });
 
         describe("#waterfall", function(){
@@ -157,9 +180,9 @@ function testSuite(testName){
             });
         });
 
-        describe("#asyncMap", function(){
+        describe("#parallelMap", function(){
             it("should map asynchronously", function(done){
-                fastsync.asyncMap([1,2,3], function(val, cb){
+                fastsync.parallelMap([1,2,3], function(val, cb){
                     setTimeout(function(){
                         cb(null, val * 2);
                     }, 10);
@@ -180,7 +203,37 @@ function testSuite(testName){
                         }
                     }, 100);
                 };
-                fastsync.asyncMap([1,2,3,4,5,6], wait100AndReturnErrOn3, function(err, mappedResult) {
+                fastsync.parallelMap([1,2,3,4,5,6], wait100AndReturnErrOn3, function(err, mappedResult) {
+                    assert.equal(err, anError);
+                    done();
+                });
+            });
+        });
+
+        describe("#seriesMap", function(){
+            it("should map asynchronously in series", function(done){
+                fastsync.seriesMap([1,2,3], function(val, cb){
+                    setTimeout(function(){
+                        cb(null, val * 2);
+                    }, 10);
+                }, function(err, mappedResult) {
+                    assert.deepEqual(mappedResult, [2,4,6]);
+                    done();
+                });
+            });
+
+            it("should fail on error", function(done){
+                var anError = "An Error";
+                var wait100AndReturnErrOn3 = function(val, cb) {
+                    setTimeout(function(){
+                        if (val == 3) {
+                            cb(anError);
+                        } else {
+                            cb(null, val);
+                        }
+                    }, 100);
+                };
+                fastsync.seriesMap([1,2,3,4,5,6], wait100AndReturnErrOn3, function(err, mappedResult) {
                     assert.equal(err, anError);
                     done();
                 });

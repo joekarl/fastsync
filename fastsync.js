@@ -78,17 +78,38 @@
 
     /**
      * Asynchronously map an array across a function
-     * and call callback when finished or error
+     * and call callback when finished or error 
+     * 
+     * tasks are kicked off in parallel so may complete in 
+     * any order but will be returned in order specified
      *
      * cb should be a function(err, mappedArray)
      */
-    exports.asyncMap = function(arr, fn, cb) {
+    exports.parallelMap = function(arr, fn, cb) {
         var pipeline = [],
             i = 0;
         for (i; i < arr.length; ++i) {
             pipeline[i] = fn.bind(null, arr[i]);
         }
         exports.parallel(pipeline, cb);
+    };
+
+    /**
+     * Asynchronously map an array across a function
+     * and call callback when finished or error 
+     *
+     * tasks are kicked off in series so will be executed
+     * one after another
+     *
+     * cb should be a function(err, mappedArray)
+     */
+    exports.seriesMap = function(arr, fn, cb) {
+        var pipeline = [],
+            i = 0;
+        for (i; i < arr.length; ++i) {
+            pipeline[i] = fn.bind(null, arr[i]);
+        }
+        exports.series(pipeline, cb);
     };
 
     /**

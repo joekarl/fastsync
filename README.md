@@ -14,7 +14,11 @@ Covers 4 basic use cases:
 * parallel - Run functions in parallel and callback when finished
 * series - Run functions in series and callback when finished
 * waterfall - Run functions in series while passing results of one function to the next
-* asyncMap - Convenience method for mapping an array using asynchronous functions, analogous to an async version of Array.forEach
+* asyncMap - Convenience method for mapping an array using asynchronous functions, analogous to an async version of Array.forEach with all tasks kicked off in parallel
+* seriesMap - Convenience method for mapping an array using asynchronous functions, analogous to an async version of Array.forEach with all tasks kicked off in series
+
+##Note about function resolution
+All functions are resolved synchronously!! This was done to avoid the overhead of resolving functions on the next tick of the event loop. If you need a function to be resolved on the next time around the event loop, use either setImmediate, process.nextTick, or setTimeout if those aren't available. Fastsync will not hold your hand, it is designed to make your code less convoluted, not less complicated.
 
 ##Examples
 ####parallel
@@ -95,9 +99,20 @@ Covers 4 basic use cases:
         console.log(result); //15
     });
 
-####asyncMap
+####parallelMap
+**Note** Results can be processed in any order but will be returned in the order submitted
 
-    fastsync.asyncMap([1,2,3], function mult5(v, cb){
+    fastsync.parallelMap([1,2,3], function mult5(v, cb){
+        setTimeout(function(){
+            cb(null, v * 5);
+        }, 100);
+    }, function(err, mappedArray){
+        console.log(mappedArray); //[5,10,15]
+    });
+
+####seriesMap
+
+    fastsync.seriesMap([1,2,3], function mult5(v, cb){
         setTimeout(function(){
             cb(null, v * 5);
         }, 100);
